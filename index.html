@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logowanie i Quiz</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px 30px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        form, .quiz-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-size: 1em;
+            font-weight: bold;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+        input, select {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button {
+            padding: 10px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .quiz-section {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Logowanie i Quiz</h1>
+        <p><strong>Email:</strong> testowy@mail.com<br><strong>Hasło:</strong> haslo123</p>
+
+    
+        <form id="loginForm">
+            <div>
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" placeholder="Wpisz swój e-mail">
+            </div>
+            <div>
+                <label for="password">Hasło:</label>
+                <input type="password" id="password" name="password" placeholder="Wpisz swoje hasło">
+            </div>
+            <button type="submit">Zaloguj</button>
+        </form>
+
+       
+        <div class="quiz-section">
+            <h2>Quiz</h2>
+            <p>Gratulacje, zalogowałeś się poprawnie! Odpowiedz na pytanie poniżej:</p>
+            <div>
+                <label for="question1">Ile to 2 + 2?</label><br>
+                <select id="question1">
+                    <option value="">Wybierz odpowiedź</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <br>
+            <button id="checkAnswer">Sprawdź odpowiedź</button>
+            <p id="answerFeedback"></p>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
+    <script>
+        $(document).ready(function () {
+         
+            $("#loginForm").validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6
+                    }
+                },
+                messages: {
+                    email: {
+                        required: "Proszę wpisac e-mail.",
+                        email: "Proszę wpisać poprawny adres e-mail."
+                    },
+                    password: {
+                        required: "Proszę wpisać hasło.",
+                        minlength: "Hasło musi miec co najmniej 6 znakow."
+                    }
+                },
+                submitHandler: function () {
+                    const email = $("#email").val();
+                    const password = $("#password").val();
+
+                    if (email === "testowy@mail.com" && password === "haslo123") {
+                        
+                        $(".quiz-section").slideDown();
+                    } else {
+                        alert("Niepoprawne dane logowania!");
+                    }
+                    return false; 
+                }
+            });
+
+       
+            $("#checkAnswer").click(function () {
+                const answer = $("#question1").val();
+                const feedback = $("#answerFeedback");
+
+                if (answer === "4") {
+                    feedback.text("Dobrze! 2 + 2 to 4.").css("color", "green");
+                } else {
+                    feedback.text("Źle! Spróbuj ponownie.").css("color", "red");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
